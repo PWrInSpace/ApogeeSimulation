@@ -18,3 +18,16 @@ RocketStruct::RocketStruct(float rm, float pm, float t, float Cd[101], StateStru
     this->allMass = rocketMass + propellantMass;
     this->timeOfTurnoff = t;
 }
+
+void RocketStruct::readCd(std::string cdDataName)
+    {
+        int i;
+        std::ifstream data;
+        data.open(cdDataName.c_str());
+
+        for (i = 1; i < 101; ++i) // save values from data sheet
+        {
+            data >> this->CdOverMach[i];
+        }
+        data.close();
+    }

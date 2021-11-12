@@ -2,6 +2,15 @@
 #define ROCKET_STRUCT_HH
 #include "StateStruct.h"
 
+/* 
+     * velocity, height, dragForce - self explanatory
+     * simTime - time when data was taken and simulation began
+     * timeOfTurnoff - duration of engine working
+     * simHeight - height in timestamp n-1 and n respectively
+     * rocketMass - mass with motors, without propelant
+     * propellantMass - mass of propellant at the time of launch
+     * allMass - rocketMass + mass of propellant in time t
+     */
 struct RocketStruct
 {
     float rocketMass;     // rocket mass
@@ -16,18 +25,7 @@ struct RocketStruct
 
     RocketStruct(float rm, float pm, float t, float Cd[101], StateStruct stat);
 
-    void readCd(std::string cdDataName)
-    {
-        int i;
-        std::ifstream data;
-        data.open(cdDataName.c_str());
-
-        for (i = 1; i < 101; ++i) // save values from data sheet
-        {
-            data >> this->CdOverMach[i];
-        }
-        data.close();
-    }
+    void readCd(std::string cdDataName);
 
     float getCd(float machNumber)
     {
@@ -39,8 +37,6 @@ struct RocketStruct
     {
         return rocketState.calculateAirDensity(rocketState.height) * pow(velocity, 2) * AREF * getCd(rocketState.calculateMachNumber(height, velocity)) * 0.5;
     }
-
-    // dorobic strukture stanow (polozenie itp)
 };
 
 #endif

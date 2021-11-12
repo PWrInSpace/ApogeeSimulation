@@ -1,15 +1,16 @@
 #include "../include/RocketStruct.h"
 
+/// returns: if reached apogee
+bool apogeeSimulation(RocketStruct rocket, float targetApogee)
+{
+    bool ifAchieved;
+    
+    return ifAchieved;
+}
+
 int main(int argc, char **argv)
 {
-    //CdOverMach[0] = 0.0; // for 0 Mach velocity
-    int j = 0;
-
-    // Get Cd values
     RocketStruct r4s;
- 
-
-    
 
     // Get flight numbers
     std::ifstream flight;
@@ -26,15 +27,7 @@ int main(int argc, char **argv)
     // MAIN PROGRAM STARTS HERE //
     bool running;           // for the while loop
     bool runningScript = 1; // for end of script marking
-    /* 
-     * velocity, height, dragForce - self explanatory
-     * simTime - time when data was taken and simulation began
-     * thrustEndTime - duration of engine working
-     * simHeight - height in timestamp n-1 and n respectively
-     * rocketMass - mass with motors, without propelant
-     * propellantMass - mass of propellant at the time of launch
-     * allMass - rocketMass + mass of propellant in time t
-     */
+    
     float velocity, dragForce, simTime, simStartTime, thrustEndTime = 6, simHeight[2], rocketMass = 27.3, propellantMass = 4, allMass; // mass in kg
     std::string str;
     int p;

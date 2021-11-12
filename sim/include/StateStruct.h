@@ -30,6 +30,7 @@ struct StateStruct
     float dt;             // sampling in flight time (TIMESTEP relates to simulation steps)
     float height;
     float velocity;
+    float dragForce;
 
     StateStruct() {};
     StateStruct(float pos[2], float diti);
