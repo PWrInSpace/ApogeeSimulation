@@ -28,8 +28,12 @@ struct StateStruct
 
     float verticalPos[2]; // verticalPos[0] - position on t0, verticalPos[1] - position on t0 + dt
     float dt;             // sampling in flight time (TIMESTEP relates to simulation steps)
-    float height = verticalPos[1];
-    float velocity = (verticalPos[1] - verticalPos[0])/dt;
+    float height;
+    float velocity;
+
+    StateStruct() {};
+    StateStruct(float pos[2], float diti);
+
     // ALL MATH FUNCTIONS
     float calculateTemperature(float height)
     {

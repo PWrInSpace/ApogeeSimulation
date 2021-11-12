@@ -6,15 +6,10 @@ int main(int argc, char **argv)
     int j = 0;
 
     // Get Cd values
-    std::ifstream data;
-    data.open("data.txt");
-
     RocketStruct r4s;
-    for (j = 1; j < 101; ++j) // save values from data sheet
-    {
-        data >> r4s.CdOverMach[j];
-    }
-    data.close();
+ 
+
+    
 
     // Get flight numbers
     std::ifstream flight;
