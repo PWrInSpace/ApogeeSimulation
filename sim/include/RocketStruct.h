@@ -21,11 +21,20 @@ struct RocketStruct
                            // CdOverMach[1] contains Cd value for Mach 0.01, CdOverMach[2] for Mach 0.02 and so on
 
     StateStruct rocketState;
+
     RocketStruct();
 
-    RocketStruct(float rm, float pm, float t, float Cd[101], StateStruct stat);
+    RocketStruct(float rm, float pm, float t, StateStruct stat, std::string cdDataName);
 
     void readCd(std::string cdDataName);
+
+    /// returns: if reached apogee
+    bool apogeeSimulation(float targetApogee, float simulatedApogee);
+
+    void updateState(StateStruct &newState)
+    {
+        this->rocketState = newState;
+    }
 
     float getCd(float machNumber)
     {
@@ -35,7 +44,15 @@ struct RocketStruct
 
     float calculateDragForce(float height, float velocity)
     {
-        return rocketState.calculateAirDensity(rocketState.height) * pow(velocity, 2) * AREF * getCd(rocketState.calculateMachNumber(height, velocity)) * 0.5;
+        return rocketState.calculateAirDensity(height) * pow(velocity, 2) * AREF * getCd(rocketState.calculateMachNumber(height, velocity)) * 0.5;
+    }
+
+    void calculateAllMass()
+    {
+        if (rocketState.simTime < timeOfTurnoff)
+            this->allMass = rocketMass + propellantMass * ((timeOfTurnoff - rocketState.simTime) / timeOfTurnoff);
+        else
+            this->allMass = rocketMass;
     }
 };
 

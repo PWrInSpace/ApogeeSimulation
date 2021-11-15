@@ -16,24 +16,24 @@
 #define GAMMA 1.4             // ratio of specific heat of a gas at a constant pressure to heat at a constant volume for air
 #define RSTAR 287.058         // specific gas constant of air, = R/M, https://en.wikipedia.org/wiki/Gas_constant#Specific_gas_constant
 #define AREF 0.028            // reference area of rocket
-#define TIMESTEP 0.001
-#define TIMESTEPSQ 0.000001
+#define TIMESTEP 0.01
+#define TIMESTEPSQ 0.0001
 
 /* Struct describes rocket flights parameters
  * Insert values of rocket during the start of the simulation
- * ! These will change when program starts simulating apogee
+ * ! These wont change when program starts simulating apogee
  */
 struct StateStruct
 {
 
-    float verticalPos[2]; // verticalPos[0] - position on t0, verticalPos[1] - position on t0 + dt
+    float simHeight[2]; // simHeight[0] - position on t0, simHeight[1] - position on t0 + dt
+    float simTime;      // time at simulation
     float dt;             // sampling in flight time (TIMESTEP relates to simulation steps)
-    float height;
-    float velocity;
-    float dragForce;
+    float velocity;     //
+    float dragForce;    // all at time simTime
 
     StateStruct() {};
-    StateStruct(float pos[2], float diti);
+    StateStruct(float pos[2], float diti, float startTime);
 
     // ALL MATH FUNCTIONS
     float calculateTemperature(float height)

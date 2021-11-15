@@ -1,10 +1,10 @@
 #include"../include/StateStruct.h"
 
-StateStruct::StateStruct(float pos[2], float diti)
+StateStruct::StateStruct(float pos[2], float diti, float startTime)
 {
-    this->verticalPos[0] = pos[0];
-    this->verticalPos[1] = pos[1];
+    this->simHeight[0] = pos[0];
+    this->simHeight[1] = pos[1];
     this->dt = diti;
-    this->height = verticalPos[1];
-    this->velocity = (verticalPos[1] - verticalPos[0]) / dt;
+    this->simTime = startTime;
+    this->velocity = (simHeight[1] - simHeight[0]) / dt;
 }

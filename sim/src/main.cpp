@@ -1,83 +1,40 @@
 #include "../include/RocketStruct.h"
 
-/// returns: if reached apogee
-bool apogeeSimulation(RocketStruct rocket, float targetApogee)
-{
-    bool ifAchieved;
-    
-    return ifAchieved;
-}
-
 int main(int argc, char **argv)
 {
-    RocketStruct r4s;
-
-    // Get flight numbers
+    int j;
     std::ifstream flight;
-    flight.open("data_EUROC2.txt");
-    /*
+    float flightData[500];
+
+    flight.open("../data/data_EUROC2.txt");
     for (j = 0; j < 500; ++j)
     {
-        flight_time >> flightData[0][j];
-        flight >> flightData[1][j];
-        std::cout << flightData[0][j] << " " << flightData[1][j] << std::endl;
-    }
-  */
-
-    // MAIN PROGRAM STARTS HERE //
-    bool running;           // for the while loop
-    bool runningScript = 1; // for end of script marking
-    
-    float velocity, dragForce, simTime, simStartTime, thrustEndTime = 6, simHeight[2], rocketMass = 27.3, propellantMass = 4, allMass; // mass in kg
-    std::string str;
-    int p;
-    float i = 0;
-    float oldSimHeight = 0.0;
-    while (runningScript && i <= 500)
-    {
-
-        running = 1;
-
-        simTime = 0.051 * i;
-        simHeight[0] = oldSimHeight;
-
-        flight >> simHeight[1];
-        velocity = (simHeight[1] - simHeight[0]) / 0.051; // v = (h1 - h0)/dt
-        if (simTime < thrustEndTime)
-            allMass = rocketMass + propellantMass * ((thrustEndTime - simTime) / thrustEndTime);
-        else
-            allMass = rocketMass;
-        simStartTime = simTime;
-        oldSimHeight = simHeight[1];
-        p = 0;
-        std::cout << "Doing::" << simHeight[1] << " <- height | time of turnoff -> " << simStartTime << " allMass = " << allMass << std::endl;
-        while (running && i >= 10)
-        {
-
-            if (velocity <= 0)
-            {
-                running = 0;
-                if (simHeight[1] > 2500.0)
-                {
-                    std::cout << simHeight[1] << " <- height | time of turnoff -> " << simStartTime << " allMass = " << allMass << std::endl;
-                    runningScript = 0;
-                }
-            }
-            /*! 
-                it would be good to include sth like this:
-                
-                if (openedPilotParachute || reachedApogee)
-                    running = 0;
-            */
-            dragForce = r4s.calculateDragForce(simHeight[1], velocity);
-            simHeight[0] = simHeight[1];                                                                                   // height in t(n) prepare for next step
-            simHeight[1] = simHeight[1] + velocity * TIMESTEP - 4.9 * TIMESTEPSQ - dragForce / allMass * TIMESTEPSQ * 0.5; // height in t(n+1)
-            simTime += TIMESTEP;                                                                                           // increase simTime
-            velocity = (simHeight[1] - simHeight[0]) / TIMESTEP;
-            if (++p > 1000)
-                running = 0; // changed !!!
-        }
-        i += 1; // go next
+        flight >> flightData[j];
+        flightData[j] -= 109.0;
+        std::cout << flightData[j] << std::endl;
     }
     flight.close();
+
+    // MAIN PROGRAM STARTS HERE //
+
+    float simStart = 0.0, thrustEndTime = 7.0, simHeight[2], rocketMass = 27.3, propellantMass = 4; // for setup
+    float simulatedApogee;
+    simHeight[1] = flightData[1];
+    simHeight[0] = flightData[0];
+    std::string cdFile = "../data/dataCdOverMach.txt";
+    StateStruct stateAtStart(simHeight, 0.05, simStart);
+    RocketStruct rocket(rocketMass, propellantMass, thrustEndTime, stateAtStart, cdFile);
+
+    int i = 0;
+    while (i <= 500)
+    {
+        stateAtStart.simHeight[1] = flightData[i + 1];
+        stateAtStart.simHeight[0] = flightData[i];
+        //std::cout << stateAtStart.simHeight[1] << " " << stateAtStart.simHeight[0] << std::endl;
+        simStart += 0.05;
+        stateAtStart.simTime = simStart;
+        rocket.updateState(stateAtStart);
+        rocket.apogeeSimulation(2000, simulatedApogee);
+        ++i;
+    }
 }
