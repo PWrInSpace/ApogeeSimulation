@@ -15,9 +15,9 @@
 #define GM_OVER_RL 5.25593278 // GM/RL, constant and used in lots of derivations
 #define GAMMA 1.4             // ratio of specific heat of a gas at a constant pressure to heat at a constant volume for air
 #define RSTAR 287.058         // specific gas constant of air, = R/M, https://en.wikipedia.org/wiki/Gas_constant#Specific_gas_constant
-#define AREF 0.028            // reference area of rocket
+#define AREF 0.018            // reference area of rocket
 #define TIMESTEP 0.01
-#define TIMESTEPSQ 0.0001
+#define TIMESTEPSQ 0.001
 
 /* Struct describes rocket flights parameters
  * Insert values of rocket during the start of the simulation

@@ -37,7 +37,8 @@ bool RocketStruct::apogeeSimulation(float targetApogee, float simulatedApogee)
     bool targetAchieved = 0;
     int p = 0;
     calculateAllMass();
-    std::cout << "Doing::" << rocketState.simHeight[1] << " <- height | time of turnoff -> " << simStartTime << " allMass = " << allMass << std::endl;
+    std::cout << "Doing::" << rocketState.simHeight[1] << " <- height | start time -> " << simStartTime << " allMass = " << allMass << std::endl;
+    //std::cout<< "Data: " << rocketState.velocity << " <- velocity | mach -> " << rocketState.calculateMachNumber(rocketState.simHeight[1], rocketState.velocity) << std::endl;
     while (!apogeeAchieved)
     {
 
@@ -46,20 +47,19 @@ bool RocketStruct::apogeeSimulation(float targetApogee, float simulatedApogee)
             apogeeAchieved = 1;
             if (rocketState.simHeight[1] > targetApogee)
             {
-                           std::cout<<rocketState.simHeight[1] << " <- simHeight" << std::endl;
-                targetAchieved = 1;
+                std::cout << rocketState.simHeight[1] << " <- simHeight !!! ACHIEVED" << std::endl;
             }
         }
         rocketState.dragForce = calculateDragForce(rocketState.simHeight[1], rocketState.velocity);
         rocketState.simHeight[0] = rocketState.simHeight[1];                                                                                                           // height in t(n) prepare for next step
-        rocketState.simHeight[1] = rocketState.simHeight[1] + rocketState.velocity * TIMESTEP - 4.9 * TIMESTEPSQ - rocketState.dragForce / allMass * TIMESTEPSQ * 0.5; // height in t(n+1)
+        rocketState.simHeight[1] = rocketState.simHeight[1] + (rocketState.velocity * TIMESTEP) - (4.9 * TIMESTEPSQ) - (rocketState.dragForce / allMass * TIMESTEPSQ * 0.5); // height in t(n+1)
         rocketState.simTime += TIMESTEP;                                                                                                                               // increase simTime
         rocketState.velocity = (rocketState.simHeight[1] - rocketState.simHeight[0]) / TIMESTEP;
         //std::cout<<rocketState.velocity<<std::endl;
-        
-        if (++p > 1000000)
+
+        if (rocketState.simTime >= 30)
             apogeeAchieved = 1; // changed !!!
     }
-
+    //std::cout << rocketState.simHeight[1] << " <- simHeight" << std::endl;
     return targetAchieved;
 }

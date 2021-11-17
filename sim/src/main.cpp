@@ -1,6 +1,6 @@
 #include "../include/RocketStruct.h"
 
-int main(int argc, char **argv)
+int main()
 {
     int j;
     std::ifstream flight;
@@ -10,7 +10,6 @@ int main(int argc, char **argv)
     for (j = 0; j < 500; ++j)
     {
         flight >> flightData[j];
-        flightData[j] -= 109.0;
         std::cout << flightData[j] << std::endl;
     }
     flight.close();
@@ -22,19 +21,19 @@ int main(int argc, char **argv)
     simHeight[1] = flightData[1];
     simHeight[0] = flightData[0];
     std::string cdFile = "../data/dataCdOverMach.txt";
-    StateStruct stateAtStart(simHeight, 0.05, simStart);
+    StateStruct stateAtStart(simHeight, 0.052, simStart);
     RocketStruct rocket(rocketMass, propellantMass, thrustEndTime, stateAtStart, cdFile);
 
     int i = 0;
     while (i <= 500)
     {
-        stateAtStart.simHeight[1] = flightData[i + 1];
-        stateAtStart.simHeight[0] = flightData[i];
+        rocket.rocketState.simHeight[1] = flightData[i + 1];
+        rocket.rocketState.simHeight[0] = flightData[i];
+        rocket.rocketState.velocity = (stateAtStart.simHeight[1] - stateAtStart.simHeight[0])/0.052;
         //std::cout << stateAtStart.simHeight[1] << " " << stateAtStart.simHeight[0] << std::endl;
-        simStart += 0.05;
-        stateAtStart.simTime = simStart;
-        rocket.updateState(stateAtStart);
+        simStart += 0.052;
+        rocket.rocketState.simTime = simStart;
         rocket.apogeeSimulation(2000, simulatedApogee);
-        ++i;
+        i++;
     }
 }

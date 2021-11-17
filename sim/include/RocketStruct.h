@@ -31,10 +31,6 @@ struct RocketStruct
     /// returns: if reached apogee
     bool apogeeSimulation(float targetApogee, float simulatedApogee);
 
-    void updateState(StateStruct &newState)
-    {
-        this->rocketState = newState;
-    }
 
     float getCd(float machNumber)
     {
