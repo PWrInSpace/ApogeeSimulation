@@ -10,7 +10,7 @@ int main()
     for (j = 0; j < 500; ++j)
     {
         flight >> flightData[j];
-        std::cout << flightData[j] << std::endl;
+        //std::cout << flightData[j] << std::endl;
     }
     flight.close();
 

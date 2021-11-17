@@ -16,8 +16,8 @@
 #define GAMMA 1.4             // ratio of specific heat of a gas at a constant pressure to heat at a constant volume for air
 #define RSTAR 287.058         // specific gas constant of air, = R/M, https://en.wikipedia.org/wiki/Gas_constant#Specific_gas_constant
 #define AREF 0.018            // reference area of rocket
-#define TIMESTEP 0.01
-#define TIMESTEPSQ 0.001
+#define TIMESTEP 0.001
+#define TIMESTEPSQ 0.00001
 
 /* Struct describes rocket flights parameters
  * Insert values of rocket during the start of the simulation
@@ -50,7 +50,10 @@ struct StateStruct
         /* read pressure from main comp,
        return pressure
     */
+    float factor = 1 - L * height / T0;
+    if (factor > 0)
         return P0 * pow((1 - L * height / T0), GM_OVER_RL);
+    else return 0;
     }
 
     /*!
@@ -66,15 +69,18 @@ struct StateStruct
  */
     float calculateSpeedOfSound(float height)
     {
-        return pow(GAMMA * RSTAR * calculateTemperature(height), 0.5);
+        float temp = calculateTemperature(height);
+        if(temp > 0)
+            return pow(GAMMA * RSTAR * temp, 0.5);
+        else return 0;
     }
 
     /*!
  *  https://en.wikipedia.org/wiki/Mach_number#Calculation
  */
-    float calculateMachNumber(float height, float velocity)
+    float calculateMachNumber(float height)
     {
-        return velocity / calculateSpeedOfSound(height);
+        return this->velocity / calculateSpeedOfSound(height);
     }
 };
 

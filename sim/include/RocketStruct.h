@@ -40,7 +40,9 @@ struct RocketStruct
 
     float calculateDragForce(float height, float velocity)
     {
-        return rocketState.calculateAirDensity(height) * pow(velocity, 2) * AREF * getCd(rocketState.calculateMachNumber(height, velocity)) * 0.5;
+        if (velocity > 0)
+            return rocketState.calculateAirDensity(height) * pow(velocity, 2) * AREF * getCd(rocketState.calculateMachNumber(height)) * 0.5;
+        else return 0;
     }
 
     void calculateAllMass()
