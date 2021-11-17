@@ -29,7 +29,7 @@ int main()
     {
         rocket.rocketState.simHeight[1] = flightData[i + 1];
         rocket.rocketState.simHeight[0] = flightData[i];
-        rocket.rocketState.velocity = (stateAtStart.simHeight[1] - stateAtStart.simHeight[0])/0.052;
+        rocket.rocketState.velocity = (rocket.rocketState.simHeight[1] - rocket.rocketState.simHeight[0])/0.052;
         //std::cout << stateAtStart.simHeight[1] << " " << stateAtStart.simHeight[0] << std::endl;
         simStart += 0.052;
         rocket.rocketState.simTime = simStart;
