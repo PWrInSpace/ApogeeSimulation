@@ -30,11 +30,15 @@ void RocketStruct::readCd(std::string cdDataName)
     data.close();
 }
 
-bool RocketStruct::apogeeSimulation(float targetApogee, float simulatedApogee)
+float RocketStruct::apogeeSimulation(float currentHeight, float lastHeight, float velocity, float time_s)
 {
+    rocketState.simHeight[1] = currentHeight;
+    rocketState.simHeight[0] = lastHeight;
+    rocketState.velocity = velocity;
+    rocketState.simTime = time_s;
+
     bool apogeeAchieved = 0;
     float simStartTime = rocketState.simTime;
-    bool targetAchieved = 0;
     int p = 0;
     calculateAllMass();
     std::cout << "Doing::" << rocketState.simHeight[1] << " <- height | start time -> " << simStartTime << " allMass = " << allMass << std::endl;
@@ -45,10 +49,6 @@ bool RocketStruct::apogeeSimulation(float targetApogee, float simulatedApogee)
         if (rocketState.velocity <= 0)
         {
             apogeeAchieved = 1;
-            if (rocketState.simHeight[1] > targetApogee)
-            {
-                std::cout << rocketState.simHeight[1] << " <- simHeight !!! ACHIEVED" << std::endl;
-            }
         }
         rocketState.dragForce = calculateDragForce(rocketState.simHeight[1], rocketState.velocity);
         rocketState.simHeight[0] = rocketState.simHeight[1];                                                                                                           // height in t(n) prepare for next step
@@ -61,5 +61,5 @@ bool RocketStruct::apogeeSimulation(float targetApogee, float simulatedApogee)
             apogeeAchieved = 1; // changed !!!
     }
     //std::cout << rocketState.simHeight[1] << " <- simHeight" << std::endl;
-    return targetAchieved;
+    return rocketState.simHeight[1];
 }

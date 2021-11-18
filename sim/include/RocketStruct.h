@@ -28,8 +28,8 @@ struct RocketStruct
 
     void readCd(std::string cdDataName);
 
-    /// returns: if reached apogee
-    bool apogeeSimulation(float targetApogee, float simulatedApogee);
+    /// returns simulated apogee:
+    float apogeeSimulation(float currentHeight, float lastHeight, float velocity, float time_s);
 
 
     float getCd(float machNumber)
