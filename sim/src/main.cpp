@@ -6,7 +6,7 @@ int main()
     std::ifstream flight;
     float flightData[500];
 
-    flight.open("../data/data_EUROC2.txt");
+    flight.open("../data/data_EUROC3.txt");
     for (j = 0; j < 500; ++j)
     {
         flight >> flightData[j];
@@ -23,7 +23,7 @@ int main()
     StateStruct stateAtStart(simHeight, 0.052, simStart);
     RocketStruct rocket(rocketMass, propellantMass, thrustEndTime, stateAtStart, cdFile);
 
-    float tempLastHeight = 0;
+    float tempLastHeight = flightData[0];
     int i = 1;
     while (i <= 500)
     {
