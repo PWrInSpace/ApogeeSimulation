@@ -9,7 +9,20 @@ RocketStruct::RocketStruct(float rm, float pm, float t, StateStruct stat, std::s
 {
     int i;
     this->readCd(cdDataName);
-    this->CdOverMach[0] = 0.0;
+    this->rocketMass = rm;
+    this->propellantMass = pm;
+    this->allMass = rocketMass + propellantMass;
+    this->timeOfTurnoff = t;
+}
+
+
+RocketStruct::RocketStruct(float rm, float pm, float t, StateStruct stat, float cd[301])
+{
+    int i;
+    for(i=0; i < 301; ++i)
+    {
+        this->CdOverMach[i] = cd[i];
+    }
     this->rocketMass = rm;
     this->propellantMass = pm;
     this->allMass = rocketMass + propellantMass;
@@ -22,10 +35,10 @@ void RocketStruct::readCd(std::string cdDataName)
     std::ifstream data;
     data.open(cdDataName.c_str());
 
-    for (i = 1; i < 301; ++i) // save values from data sheet
+    for (i = 0; i < 301; ++i) // save values from data sheet
     {
         data >> this->CdOverMach[i];
-        //std::cout<< this->CdOverMach[i];
+        std::cout<< this->CdOverMach[i];
     }
     data.close();
 }

@@ -26,6 +26,8 @@ struct RocketStruct
 
     RocketStruct(float rm, float pm, float t, StateStruct stat, std::string cdDataName);
 
+    RocketStruct(float rm, float pm, float t, StateStruct stat, float cd[301]);
+
     void readCd(std::string cdDataName);
 
     /// returns simulated apogee:
