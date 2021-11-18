@@ -22,7 +22,7 @@ void RocketStruct::readCd(std::string cdDataName)
     std::ifstream data;
     data.open(cdDataName.c_str());
 
-    for (i = 1; i < 101; ++i) // save values from data sheet
+    for (i = 1; i < 301; ++i) // save values from data sheet
     {
         data >> this->CdOverMach[i];
         //std::cout<< this->CdOverMach[i];

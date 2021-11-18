@@ -52,7 +52,7 @@ struct StateStruct
     */
     float factor = 1 - L * height / T0;
     if (factor > 0)
-        return P0 * pow((1 - L * height / T0), GM_OVER_RL);
+        return P0 * pow(factor, GM_OVER_RL);
     else return 0;
     }
 

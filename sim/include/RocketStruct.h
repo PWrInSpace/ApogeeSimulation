@@ -17,7 +17,7 @@ struct RocketStruct
     float propellantMass; // propellant mass
     float allMass;
     float timeOfTurnoff;   // t of engine shutdown (all propellant deplated)
-    float CdOverMach[101]; // array for Cd values,
+    float CdOverMach[301]; // array for Cd values,
                            // CdOverMach[1] contains Cd value for Mach 0.01, CdOverMach[2] for Mach 0.02 and so on
 
     StateStruct rocketState;
@@ -35,7 +35,9 @@ struct RocketStruct
     float getCd(float machNumber)
     {
         float machTimes100 = machNumber * 100.0;
-        return CdOverMach[(int)machTimes100]; //conversion from float to int*100
+        if(machTimes100 <= 300.0)
+            return CdOverMach[(int)machTimes100]; //conversion from float to int*100
+        else return 0;
     }
 
     float calculateDragForce(float height, float velocity)
