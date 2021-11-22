@@ -71,6 +71,6 @@ float RocketStruct::apogeeSimulation(float currentHeight, float lastHeight, floa
         if (rocketState.simTime >= 30)
             apogeeAchieved = 1; // changed !!!
     }
-    //std::cout << rocketState.simHeight[1] << " <- simHeight" << std::endl;
+    std::cout << rocketState.simHeight[1] << " <- simHeight" << std::endl;
     return rocketState.simHeight[1];
 }
