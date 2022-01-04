@@ -5,7 +5,7 @@ int main()
     int j;
     std::ifstream flight;
     float flightData[250];
-
+    // air braker
     flight.open("../data/data_brake.txt");
     for (j = 0; j < 250; ++j)
     {

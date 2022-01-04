@@ -49,7 +49,8 @@ float RocketStruct::apogeeSimulation(float currentHeight, float lastHeight, floa
     rocketState.simHeight[0] = lastHeight;
     rocketState.velocity = velocity;
     rocketState.simTime = time_s;
-
+    float dHeight = pow(velocity,2)/(2*G); 
+/*
     bool apogeeAchieved = 0;
     float simStartTime = rocketState.simTime;
     calculateAllMass();
@@ -63,14 +64,16 @@ float RocketStruct::apogeeSimulation(float currentHeight, float lastHeight, floa
             apogeeAchieved = 1;
         }
         rocketState.dragForce = calculateDragForce(rocketState.simHeight[1], rocketState.velocity);                                                                                                          // height in t(n) prepare for next step
-        rocketState.simHeight[1] = rocketState.simHeight[1] + (rocketState.velocity * TIMESTEP) - (4.9 * TIMESTEPSQ) - (rocketState.dragForce / allMass * TIMESTEPSQ * 0.5); // height in t(n+1)
+        rocketState.simHeight[1] = rocketState.simHeight[1] + (rocketState.velocity * TIMESTEP); // - (4.9 * TIMESTEPSQ) - (rocketState.dragForce / allMass * TIMESTEPSQ * 0.5); // height in t(n+1)
         rocketState.simTime += TIMESTEP;                                                                                                                               // increase simTime
-        rocketState.velocity = rocketState.velocity - 9.8 * TIMESTEP - rocketState.dragForce / allMass *TIMESTEP;
+        rocketState.velocity = rocketState.velocity - 9.8 * TIMESTEP; // - rocketState.dragForce / allMass *TIMESTEP;
         //std::cout<<rocketState.velocity<<std::endl;
 
         if (rocketState.simTime >= 30)
             apogeeAchieved = 1; // changed !!!
-    }
+            
+    }*/
+    rocketState.simHeight[1] = currentHeight + dHeight;
     std::cout << rocketState.simHeight[1] << " <- simHeight" << std::endl;
     return rocketState.simHeight[1];
 }
