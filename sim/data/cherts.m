@@ -4,7 +4,7 @@ t = 0:0.1:25;
 
 normal = fopen('data_sim_przed.txt','r');
 noAir = fopen('data_sim_po.txt','r');
-energy = fopen('data_sim_nowy_alg.txt','r');
+energy = fopen('data_sim_energy_equation.txt','r');
 
 formatSpec = '%f';
 A = fscanf(normal,formatSpec);
