@@ -1,17 +1,16 @@
 #ifndef ROCKET_CONFIG_DRAG_H
 #define ROCKET_CONFIG_DRAG_H
 
-#include "Arduino.h"
+#include "esp_log.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 
-constexpr uint8_t VelocitySamples = 0;
-constexpr uint8_t DragSamples = 0;
-
-
-
-class RocketConfig
+typedef struct 
 {
-    private:
-    const static float DragVsVelocity[VelocitySamples][DragSamples];
-};
+    float *dragVsVelocity;
+    const float burnoutTime;
+    const float startingMass;
+    const float burnoutMass;
+}RocketConfig;
 
 #endif
