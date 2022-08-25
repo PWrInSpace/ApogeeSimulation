@@ -9,12 +9,17 @@ typedef struct MeasuredData
 	uint64_t timeInMS;
 	float height;
 	float acceleration;
+	float velocity;
 } MeasuredData;
 
 typedef struct SimMath
 {
 	RocketConfig rocketData;
-	QueueHandle_t dataQueue; // will be implemenented in state machine
+ // will be implemenented in state machine
 } SimMath;
+
+void velocityFromAcceleration(MeasuredData *prev, MeasuredData *cur);
+
+void velocityFromHeight(MeasuredData *prev, MeasuredData *cur);
 
 #endif

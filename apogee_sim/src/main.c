@@ -7,12 +7,11 @@
 // in final
 // code
 TaskHandle_t simTask = NULL;
-
+QueueHandle_t dataQueue;
 
 const float newBurnoutTime = 10.0f;
 const float newStartingMass = 8.0f;
 const float newBurnoutMass = 7.0f;
-
 
 SimMath breakerSim = { .rocketData.burnoutTime = newBurnoutTime,
 					   .rocketData.burnoutMass = newBurnoutMass,
@@ -26,7 +25,7 @@ void app_main()
 		ESP_LOGI(pcTaskGetName(NULL), "Simtask started");
 	}
 
-	breakerSim.dataQueue = xQueueCreate(20, sizeof(MeasuredData));
+	dataQueue = xQueueCreate(20, sizeof(MeasuredData));
 
 	while (1)
 	{
