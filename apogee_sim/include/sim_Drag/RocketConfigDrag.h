@@ -5,12 +5,12 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 
-typedef struct 
+typedef struct RocketConfig
 {
-    float *dragVsVelocity;
-    const float burnoutTime;
-    const float startingMass;
-    const float burnoutMass;
-}RocketConfig;
+	const float burnoutTime;
+	const float startingMass;
+	const float burnoutMass;
+} RocketConfig;
+
 
 #endif

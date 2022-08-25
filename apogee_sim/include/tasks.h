@@ -6,4 +6,6 @@
 
 void simulationTask(void *arg);
 
+void dataProcessingTask(void *arg);
+
 #endif

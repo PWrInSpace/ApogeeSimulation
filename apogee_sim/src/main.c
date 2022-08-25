@@ -8,7 +8,15 @@
 // code
 TaskHandle_t simTask = NULL;
 
-extern SimMath breakerSim;
+
+const float newBurnoutTime = 10.0f;
+const float newStartingMass = 8.0f;
+const float newBurnoutMass = 7.0f;
+
+
+SimMath breakerSim = { .rocketData.burnoutTime = newBurnoutTime,
+					   .rocketData.burnoutMass = newBurnoutMass,
+					   .rocketData.startingMass = newStartingMass };
 // TODO: notification to start simulation
 void app_main()
 {
@@ -17,6 +25,9 @@ void app_main()
 	{
 		ESP_LOGI(pcTaskGetName(NULL), "Simtask started");
 	}
+
+	breakerSim.dataQueue = xQueueCreate(20, sizeof(MeasuredData));
+
 	while (1)
 	{
 		ESP_LOGI(pcTaskGetName(NULL), "Dupa");

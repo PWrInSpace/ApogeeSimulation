@@ -8,7 +8,7 @@
  timer. */
  void vTimerCallback( TimerHandle_t xTimer )
  {
- const uint32_t ulMaxExpiryCountBeforeStopping = 10;
+ const uint32_t ulMaxExpiryCountBeforeStopping = 100000;
  uint32_t ulCount;
 
     /* Optionally do something if the pxTimer parameter is NULL. */
