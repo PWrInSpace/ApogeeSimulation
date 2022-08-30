@@ -8,9 +8,8 @@
 typedef struct RocketConfig
 {
 	const float burnoutTime;
-	const float startingMass;
-	const float burnoutMass;
+	const float propellantMass;
+	const float emptyMass;
 } RocketConfig;
-
 
 #endif
