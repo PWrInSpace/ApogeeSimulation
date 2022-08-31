@@ -1,42 +1,44 @@
 #include "../include/sim_Drag/SimMathDrag.h"
 #include "../include/tasks.h"
 
-#define AVG_SAMPLES 10.0f
+#define AVG_SAMPLES 3.0f
 
 extern QueueHandle_t dataQueue;
 extern QueueHandle_t simQueue;
 
 void dataProcessingTask(void *arg)
 {
-	MeasuredData tmp1, tmp2, sum;
+	MeasuredData tmp1, tmp2,
+	sum = { .velocity = 0.0f, .acceleration = 0.0f, .mass = 0.0f };
 	size_t i = 0;
-	while (xQueueReceive(dataQueue, &tmp1, 10) != pdTRUE)
+	if (xQueueReceive(dataQueue, &tmp1, portMAX_DELAY))
 	{
-		vTaskDelay(100 / portTICK_PERIOD_MS);
+		tmp1.breakAngle = 0.0;
+		tmp2.breakAngle = 0.0;
+		sum.breakAngle = 0.0;
 	}
-	sum.velocity = tmp1.velocity;
-	sum.acceleration = tmp1.acceleration;
-	sum.breakAngle = 0.0;
 	while (1)
 	{
-		if (xQueueReceive(dataQueue, &tmp2, 10) == pdTRUE)
+		if (xQueueReceive(dataQueue, &tmp2, portMAX_DELAY) == pdTRUE)
 		{
 			velocityFromHeight(&tmp1, &tmp2);
 			tmp1 = tmp2;
-			sum.velocity += tmp1.velocity;
-			sum.acceleration += tmp1.acceleration;
-
-			if (++i == (int)AVG_SAMPLES)
+			sum.velocity += tmp2.velocity;
+			if (++i == (size_t)AVG_SAMPLES)
 			{
-				sum.velocity /= AVG_SAMPLES;
-				sum.acceleration /= AVG_SAMPLES;
 				sum.height = tmp2.height;
 				sum.timeInMS = tmp2.timeInMS;
-				xQueueSend(simQueue, (void *)&sum, 10);
+				sum.velocity /= AVG_SAMPLES;
+				if (sum.velocity > 0)
+				{
+					xQueueSend(simQueue, (void *)&sum, 10);
+				}
 				i = 0;
+				sum.velocity = 0.0f;
+				sum.mass = 0.0f;
 			}
 		}
-		ESP_LOGI(pcTaskGetName(NULL), "debug");
+		// ESP_LOGI(pcTaskGetName(NULL), "debug");
 		vTaskDelay(10 / portTICK_PERIOD_MS);
 	}
 }

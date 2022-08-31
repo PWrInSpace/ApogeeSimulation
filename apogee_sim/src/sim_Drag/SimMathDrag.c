@@ -4,7 +4,7 @@ void velocityFromAcceleration(MeasuredData *prev, MeasuredData *cur)
 {
 	// area of a trapezoid
 	cur->velocity = 0.5 * (prev->acceleration + cur->acceleration) *
-					(cur->timeInMS - prev->timeInMS) +
+					(cur->timeInMS - prev->timeInMS) / 1000.0f +
 					prev->velocity;
 }
 
@@ -12,9 +12,8 @@ void velocityFromHeight(MeasuredData *prev, MeasuredData *cur)
 {
 	// simple derivative
 	cur->velocity =
-	(cur->height - prev->height) / (cur->timeInMS - prev->timeInMS);
+	(cur->height - prev->height) / ((cur->timeInMS - prev->timeInMS) / 1000.0f);
 }
-
 
 void calculateDragForce(MeasuredData *cur)
 {
