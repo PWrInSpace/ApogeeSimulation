@@ -1,14 +1,5 @@
 # ApogeeSimulation
 
-To run the simulation do:
+Library for the simulation of live apogee calculation for experimental rockets.
 
-```bash
-cd sim
-mkdir build
-cd build
-cmake ..
-make
-./ApogeeSim
-```
-
-## Między bogiem a prawdą, gratis to uczciwa cena.
+## Platformio ESP-IDF
