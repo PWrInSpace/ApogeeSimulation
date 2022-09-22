@@ -1,25 +1,6 @@
 #include "../include/RocketStruct.h"
 
-int main()
-{
-    int j;
-    std::ifstream flight;
-    float flightData[250];
-
-    flight.open("../data/data_brake.txt");
-    for (j = 0; j < 250; ++j)
-    {
-        flight >> flightData[j];
-        flightData[j] /= 1000.0;
-        std::cout << flightData[j] << std::endl;
-    }
-    flight.close();
-
-    // MAIN PROGRAM STARTS HERE //
-
-    float simStart = 0.0, thrustEndTime = 5.5, simHeight[2] = {0, 0}, rocketMass = 3.5, propellantMass = 0.8; // for setup
-    StateStruct stateAtStart(simHeight, 0.1, simStart);
-    float Cd[301] = {
+const float Cd[301] = {
         0.40720440856436707,
         0.437889003609151,
         0.45182539967372065,
@@ -321,6 +302,26 @@ int main()
         0.38772810890599296,
         0.3868429080675958,
         0.385962092124162};
+
+int main()
+{
+    int j;
+    std::ifstream flight;
+    float flightData[250];
+    // air braker
+    flight.open("../data/data_brake.txt");
+    for (j = 0; j < 250; ++j)
+    {
+        flight >> flightData[j];
+        flightData[j] /= 1000.0;
+        std::cout << flightData[j] << std::endl;
+    }
+    flight.close();
+
+    // MAIN PROGRAM STARTS HERE //
+
+    float simStart = 0.0, thrustEndTime = 5.5, simHeight[2] = {0, 0}, rocketMass = 3.5, propellantMass = 0.8; // for setup
+    StateStruct stateAtStart(simHeight, 0.1, simStart);
     RocketStruct rocket(rocketMass, propellantMass, thrustEndTime, stateAtStart, Cd);
     float tempVel;
     float tempLastHeight = 0, tempNewHeight = 0;
@@ -328,7 +329,7 @@ int main()
 
     std::ofstream sim;
 
-    sim.open("../data/data_sim.txt");
+    sim.open("../data/data_sim_energy_equation.txt");
 
 
     while (j < 250)
